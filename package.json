@@ -1,0 +1,21 @@
+{
+  "name": "bank-api-mongo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run server --prefix server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jordanlaor/bank-api-mongo-weekend-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jordanlaor/bank-api-mongo-weekend-project/issues"
+  },
+  "homepage": "https://github.com/jordanlaor/bank-api-mongo-weekend-project#readme",
+  "description": "",
+  "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client && npm install --prefix server",
+}
