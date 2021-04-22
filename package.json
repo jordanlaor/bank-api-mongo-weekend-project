@@ -23,6 +23,7 @@
   "description": "",
   "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client && npm install --prefix server",
   "dependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "israeli-id-validator": "^1.0.1"
   }
 }

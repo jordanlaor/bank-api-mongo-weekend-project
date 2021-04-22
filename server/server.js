@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const AccountModel = require("./models/accountModel");
 
 require("dotenv").config();
 
@@ -10,6 +11,5 @@ app.use(cors());
 // TODO add routes
 // app.use();
 
-console.log(process.env);
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log("listening to port ", PORT));
