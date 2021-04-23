@@ -8,26 +8,28 @@ const TransactionModel = mongoose.model("transaction", {
     type: Date,
     default: new Date(),
   },
-  type: {
+  actionType: {
     type: String,
     required: true,
-    lowercase,
+    lowercase: true,
     validate(value) {
       if (!["transaction"].includes(value)) throw "not a valid action";
     },
   },
   fromAccount: {
-    type: AccountModel,
+    type: String,
+    ref: "accounts",
     required: true,
     async validate(value) {
-      if (!(await AccountModel.findOne({ passportId: value }))) throw "user was not found";
+      if (!(await AccountModel.findById(value))) throw "user was not found";
     },
   },
   toAccount: {
-    type: AccountModel,
+    type: String,
+    ref: "accounts",
     required: true,
     async validate(value) {
-      if (!(await AccountModel.findOne({ passportId: value }))) throw "user was not found";
+      if (!(await AccountModel.findById(value))) throw "user was not found";
     },
   },
   amount: {

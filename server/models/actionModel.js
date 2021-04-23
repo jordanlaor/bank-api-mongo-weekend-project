@@ -8,19 +8,20 @@ const ActionModel = mongoose.model("action", {
     type: Date,
     default: new Date(),
   },
-  type: {
+  actionType: {
     type: String,
     required: true,
-    lowercase,
+    lowercase: true,
     validate(value) {
       if (!["withdraw", "deposit"].includes(value)) throw "not a valid action";
     },
   },
   account: {
-    type: AccountModel,
+    type: String,
+    ref: "accounts",
     required: true,
     async validate(value) {
-      if (!(await AccountModel.findOne({ passportId: value }))) throw "user was not found";
+      if (!(await AccountModel.findById(value))) throw "user was not found";
     },
   },
   amount: {
