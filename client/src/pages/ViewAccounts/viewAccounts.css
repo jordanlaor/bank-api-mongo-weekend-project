@@ -1,3 +1,7 @@
+.viewAccountsPage {
+  margin: 30px;
+}
+
 .accountRow {
   display: flex;
   justify-content: space-between;
