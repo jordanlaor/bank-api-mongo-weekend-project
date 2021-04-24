@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run start --prefix server",
-    "server": "npm run start --prefix server",
+    "server": "npm run dev --prefix server",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "togit": "git add -A && git commit -m $npm_config_comment && git push origin master && git push heroku master"
