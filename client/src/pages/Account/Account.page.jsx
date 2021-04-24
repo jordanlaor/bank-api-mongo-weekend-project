@@ -14,7 +14,7 @@ const Account = () => {
   let [isActive, setIsActive] = useState(false);
   let [isActiveOriginal, setIsActiveOriginal] = useState(false);
   let [amount, setAmount] = useState(0);
-  let [to, setTo] = useState("");
+  let [toId, setToId] = useState("");
   let [loading, setLoading] = useState(false);
   let [fetched, setFetched] = useState(false);
 
@@ -93,10 +93,10 @@ const Account = () => {
   };
 
   const transfer = async () => {
-    if (validateInputs() && to.length > 0) {
+    if (validateInputs() && toId.length > 0) {
       try {
         setLoading(true);
-        const { data } = await axios.patch(`http://localhost:5000/api/accounts/transaction`, { fromId: id, toId: to, amount });
+        const { data } = await axios.patch(`http://localhost:5000/api/accounts/transaction`, { fromId: id, toId: toId, amount });
         setLoading(false);
         console.log(data);
         setCash(data.fromAccount.cash);
@@ -114,7 +114,7 @@ const Account = () => {
     setCredit(creditOriginal);
     setCash(cashOriginal);
     setAmount(0);
-    setTo("");
+    setToId("");
   };
 
   const toggleActive = async (e) => {
@@ -198,8 +198,8 @@ const Account = () => {
             </div>
             <Input
               inputConf={{ type: "text", minLength: 1, name: "to", id: "to", disabled: !isActive || loading }}
-              onChange={(e) => setTo(Number(e.target.value))}
-              value={to}
+              onChange={(e) => setToId(Number(e.target.value))}
+              value={toId}
             >
               <label htmlFor="to" className="inputLabel">
                 Transfer to:
