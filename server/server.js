@@ -11,7 +11,7 @@ app.use(cors());
 // TODO add routes
 app.use(router);
 app.use((req, res) => {
-  res.status(404).send({ message: "no such request" });
+  res.status(404).send({ error: "no such request" });
 });
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log("listening to port ", PORT));
