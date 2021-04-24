@@ -1,0 +1,28 @@
+button:hover {
+  cursor: pointer;
+}
+
+.createAccountPage {
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.btnsWrapper {
+  display: flex;
+  gap: 5px;
+}
+
+.createAccountPage .actionBtnWrapper {
+  padding: 5px;
+}
+
+.createAccountPage button {
+  border: none;
+  background: none;
+}
+
+.createAccountPage Input {
+  display: block;
+}

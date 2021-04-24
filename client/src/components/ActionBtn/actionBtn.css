@@ -1,22 +1,28 @@
 .actionBtnWrapper {
   text-align: center;
-  background: #4683b4de;
+  background: #4683b4c5;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 15px;
+  border-radius: 7px;
+  text-decoration: none;
+  border: #000000c5 1px solid;
 }
 
 .--greenBtn {
-  background: #2e8b56de;
+  background: #2e8b56c5;
 }
 
 .--redBtn {
-  background: #ff4756de;
+  background: #ff4756c5;
 }
 
 .actionBtn {
-  transition: all 0.3s ease-in-out;
+  transition: all 0.1s linear;
+  color: #000000;
+  font-size: 1.2rem;
 }
 
 .actionBtn:hover {

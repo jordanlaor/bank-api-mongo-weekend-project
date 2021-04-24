@@ -28,8 +28,26 @@ router.get("/api/accounts", async (req, res) => {
 router.get("/api/accounts/:id", async (req, res) => {
   try {
     const account = await AccountModel.findOne({ _id: req.params.id });
-    if (!account) res.status(404).send(`No user with passport id ${req.params.id} was found`);
+    if (!account) return res.status(404).send(`No user with passport id ${req.params.id} was found`);
     res.status(200).send(account);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.get("/api/transactions", async (req, res) => {
+  try {
+    const transactions = await TransactionModel.find({});
+    res.status(200).send(transactions);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.get("/api/actions", async (req, res) => {
+  try {
+    const actions = await ActionModel.find({});
+    res.status(200).send(actions);
   } catch (error) {
     res.status(500).send(error);
   }

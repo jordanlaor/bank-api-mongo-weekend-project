@@ -1,0 +1,29 @@
+.nav {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.navLink {
+  padding: 7px;
+  flex-grow: 1;
+  text-align: center;
+  border-right: 1px solid #3333336b;
+  border-bottom: 1px solid #3333336b;
+  color: #171f27;
+  text-decoration: none;
+  background-color: #171f2718;
+}
+
+.navLink:last-of-type {
+  border-right: none;
+}
+
+.navLink:hover {
+  background: #171f272f;
+  cursor: pointer;
+}
+
+.currentNavLink,
+.currentNavLink:hover {
+  background: #e369f32a;
+}

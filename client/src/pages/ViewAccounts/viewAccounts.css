@@ -1,0 +1,21 @@
+.accountRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  align-items: baseline;
+}
+
+.cellCategory {
+  font-size: 0.8rem;
+  color: rgb(51, 51, 51);
+  margin-right: 5px;
+}
+
+.viewAccountsPage .actionBtnWrapper {
+  padding: 5px;
+  width: max-content;
+}
+
+.viewAccountsPage .actionBtn {
+  font-size: 1rem;
+}

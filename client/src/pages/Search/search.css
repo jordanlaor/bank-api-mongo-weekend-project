@@ -1,0 +1,19 @@
+.searchPage {
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.searchPage .actionBtnWrapper {
+  padding: 5px;
+}
+
+.searchPage button {
+  border: none;
+  background: none;
+}
+
+.searchPage Input {
+  display: block;
+}

@@ -7,9 +7,20 @@ import "./home.css";
 const Home = () => {
   return (
     <div className="homePage page">
-      <ActionBtn className="--greenBtn" destination="/account/create">
-        <div className="actionBtn">Create an account</div>
-      </ActionBtn>
+      <div className="actionBtnsWrapper">
+        <ActionBtn className="" destination="/account/create">
+          <div className="actionBtn">Create an Account</div>
+        </ActionBtn>
+        <ActionBtn className="" destination="/search">
+          <div className="actionBtn">Search</div>
+        </ActionBtn>
+        <ActionBtn className="" destination="/view/accounts">
+          <div className="actionBtn">View All Accounts</div>
+        </ActionBtn>
+        <ActionBtn className="" destination="/view/transactions">
+          <div className="actionBtn">View All Transactions</div>
+        </ActionBtn>
+      </div>
     </div>
   );
 };
