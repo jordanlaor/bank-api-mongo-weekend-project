@@ -1,7 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const AccountModel = require("./models/accountModel");
-const { Mongoose } = require("mongoose");
 const router = require("./routes/router");
 
 require("dotenv").config();
