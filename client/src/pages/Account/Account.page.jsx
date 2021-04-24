@@ -198,7 +198,7 @@ const Account = () => {
             </div>
             <Input
               inputConf={{ type: "text", minLength: 1, name: "to", id: "to", disabled: !isActive || loading }}
-              onChange={(e) => setToId(Number(e.target.value))}
+              onChange={(e) => setToId(e.target.value)}
               value={toId}
             >
               <label htmlFor="to" className="inputLabel">
