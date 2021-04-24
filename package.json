@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/jordanlaor/bank-api-mongo-weekend-project#readme",
   "description": "",
-  "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client && npm install --prefix server",
+  "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix server && npm install --prefix client && npm run build --prefix client ",
   "dependencies": {
     "dotenv": "^8.2.0",
     "israeli-id-validator": "^1.0.1"
