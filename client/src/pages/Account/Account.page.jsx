@@ -98,6 +98,8 @@ const Account = () => {
         setLoading(true);
         const { data } = await axios.patch(`http://localhost:5000/api/accounts/transaction`, { fromId: id, toId: to, amount });
         setLoading(false);
+        debugger;
+        console.log(data);
         setCash(data.fromAccount.cash);
         setCashOriginal(data.fromAccount.cash);
       } catch (error) {
