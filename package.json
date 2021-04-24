@@ -8,7 +8,8 @@
     "server": "npm run dev --prefix server",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "togit": "git add -A && git commit -m $npm_config_comment && git push origin master && git push heroku master"
+    "togit": "git add -A && git commit -m $npm_config_comment && git push origin master && git push heroku master",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix server && npm install --prefix client && npm run build --prefix client "
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,6 @@
   },
   "homepage": "https://github.com/jordanlaor/bank-api-mongo-weekend-project#readme",
   "description": "",
-  "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix server && npm install --prefix client && npm run build --prefix client ",
   "dependencies": {
     "dotenv": "^8.2.0",
     "israeli-id-validator": "^1.0.1"
