@@ -8,6 +8,10 @@ const app = express();
 require("./db/mongoose");
 app.use(express.json());
 app.use(cors());
+
+const pubDir = path.join(__dirname, "../client/build");
+app.use(express.static(pubDir));
+
 // TODO add routes
 app.use(router);
 app.use((req, res) => {
