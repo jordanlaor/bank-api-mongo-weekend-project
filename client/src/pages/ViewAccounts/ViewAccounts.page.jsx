@@ -15,7 +15,11 @@ const ViewAccounts = () => {
       const { data } = await axios.get("http://localhost:5000/api/accounts");
       setAccounts(data.map((account) => ({ id: account._id, credit: account.credit, cash: account.cash, isActive: account.isActive })));
     } catch (error) {
-      context.setError(error.message);
+      const err = [];
+      for (const e in error.response.data.errors) {
+        err.push(error.response.data.errors[e].reason);
+      }
+      context.setError(err);
       history.push("/error");
     }
   };
@@ -33,7 +37,7 @@ const ViewAccounts = () => {
               </div>
               <div className="cell">
                 <span className="cellCategory">Active Status:</span>
-                {account.isActive}
+                {String(account.isActive)}
               </div>
               <div className="cell">
                 <span className="cellCategory">Credit:</span>

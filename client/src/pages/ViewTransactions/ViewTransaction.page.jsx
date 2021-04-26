@@ -31,8 +31,11 @@ const ViewTransactions = () => {
           .sort((a, b) => b.date - a.date)
       );
     } catch (error) {
-      console.log(error);
-      context.setError(error.message);
+      const err = [];
+      for (const e in error.response.data.errors) {
+        err.push(error.response.data.errors[e].reason);
+      }
+      context.setError(err);
       history.push("/error");
     }
   };

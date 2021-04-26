@@ -34,14 +34,18 @@ const Account = () => {
       setFetched(true);
       setLoading(false);
     } catch (error) {
+      const err = [];
+      for (const e in error.response.data.errors) {
+        err.push(error.response.data.errors[e].reason);
+      }
+      context.setError(err);
       setLoading(false);
-      context.setError(error.message);
       history.push("/error");
     }
   };
 
   const validateInputs = () => {
-    return credit >= 0 && cash >= -credit && amount > 0 && isActive;
+    return credit >= 0 && cash >= -credit && isActive;
   };
 
   const updateCredit = async () => {
@@ -53,7 +57,14 @@ const Account = () => {
         setCredit(data.credit);
         setCreditOriginal(data.credit);
       } catch (error) {
-        context.setError(error.message);
+        context.setError(error);
+        try {
+          const err = [];
+          for (const e in error.response.data.errors) {
+            err.push(error.response.data.errors[e].reason);
+          }
+          context.setError(err);
+        } catch {}
         setLoading(false);
         history.push("/error");
       }
@@ -61,7 +72,7 @@ const Account = () => {
   };
 
   const deposit = async () => {
-    if (validateInputs()) {
+    if (validateInputs() && amount > 0) {
       try {
         setLoading(true);
         const { data } = await axios.patch(`http://localhost:5000/api/accounts/${id}/deposit`, { _id: id, amount });
@@ -69,7 +80,14 @@ const Account = () => {
         setCash(data.cash);
         setCashOriginal(data.cash);
       } catch (error) {
-        context.setError(error.message);
+        context.setError(error);
+        try {
+          const err = [];
+          for (const e in error.response.data.errors) {
+            err.push(error.response.data.errors[e].reason);
+          }
+          context.setError(err);
+        } catch {}
         setLoading(false);
         history.push("/error");
       }
@@ -77,7 +95,7 @@ const Account = () => {
   };
 
   const withdraw = async () => {
-    if (validateInputs()) {
+    if (validateInputs() && amount > 0) {
       try {
         setLoading(true);
         const { data } = await axios.patch(`http://localhost:5000/api/accounts/${id}/withdraw`, { _id: id, amount });
@@ -85,7 +103,14 @@ const Account = () => {
         setCash(data.cash);
         setCashOriginal(data.cash);
       } catch (error) {
-        context.setError(error.message);
+        context.setError(error);
+        try {
+          const err = [];
+          for (const e in error.response.data.errors) {
+            err.push(error.response.data.errors[e].reason);
+          }
+          context.setError(err);
+        } catch {}
         setLoading(false);
         history.push("/error");
       }
@@ -93,7 +118,7 @@ const Account = () => {
   };
 
   const transfer = async () => {
-    if (validateInputs() && toId.length > 0) {
+    if (validateInputs() && toId.length > 0 && amount > 0) {
       try {
         setLoading(true);
         const { data } = await axios.patch(`http://localhost:5000/api/accounts/transaction`, { fromId: id, toId: toId, amount });
@@ -102,7 +127,14 @@ const Account = () => {
         setCash(data.fromAccount.cash);
         setCashOriginal(data.fromAccount.cash);
       } catch (error) {
-        context.setError(error.message);
+        context.setError(error);
+        try {
+          const err = [];
+          for (const e in error.response.data.errors) {
+            err.push(error.response.data.errors[e].reason);
+          }
+          context.setError(err);
+        } catch {}
         setLoading(false);
         history.push("/error");
       }
@@ -122,7 +154,11 @@ const Account = () => {
       const { data } = await axios.patch(`http://localhost:5000/api/accounts/${id}/active`, { isActive: e.target.checked });
       setIsActive(Boolean(data.isActive));
     } catch (error) {
-      context.setError(error.message);
+      const err = [];
+      for (const e in error.response.data.errors) {
+        err.push(error.response.data.errors[e].reason);
+      }
+      context.setError(err);
       setLoading(false);
       history.push("/error");
     }

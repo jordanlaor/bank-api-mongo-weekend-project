@@ -21,7 +21,14 @@ const CreateAccount = () => {
         setLoading(false);
         history.push(`/account/created/${id}`);
       } catch (error) {
-        context.setError(error.message);
+        context.setError(error);
+        try {
+          const err = [];
+          for (const e in error.response.data.errors) {
+            err.push(error.response.data.errors[e].reason);
+          }
+          context.setError(err);
+        } catch {}
         setLoading(false);
         history.push("/error");
       }
