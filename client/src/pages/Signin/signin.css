@@ -1,0 +1,24 @@
+.signinPage {
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.btnsWrapper {
+  display: flex;
+  gap: 5px;
+}
+
+.signinPage .actionBtnWrapper {
+  padding: 5px;
+}
+
+.signinPage button {
+  border: none;
+  background: none;
+}
+
+.signinPage Input {
+  display: block;
+}

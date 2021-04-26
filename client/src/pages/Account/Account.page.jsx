@@ -24,7 +24,7 @@ const Account = () => {
   const searchAccount = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`http://localhost:5000/api/accounts/${id}`);
+      const { data } = await axios.get(`/api/accounts/${id}`, { headers: { Authorization: `Bearer ${context.token}` } });
       setCredit(Number(data.credit));
       setCreditOriginal(Number(data.credit));
       setCash(Number(data.cash));
@@ -34,11 +34,22 @@ const Account = () => {
       setFetched(true);
       setLoading(false);
     } catch (error) {
-      const err = [];
-      for (const e in error.response.data.errors) {
-        err.push(error.response.data.errors[e].reason);
-      }
-      context.setError(err);
+      context.setError(error.message);
+      try {
+        if (error?.response?.data?.errors) {
+          const errors = error.response.data.errors;
+          const err = [];
+          for (const e in errors) {
+            err.push(errors[e].reason);
+          }
+          context.setError(err);
+        } else if (error?.response?.data) {
+          if (error.response.data.message === "Please authenticate") {
+            history.push("/login");
+          }
+          context.setError(error.response.data);
+        }
+      } catch {}
       setLoading(false);
       history.push("/error");
     }
@@ -52,18 +63,31 @@ const Account = () => {
     if (validateInputs()) {
       try {
         setLoading(true);
-        const { data } = await axios.patch(`http://localhost:5000/api/accounts/${id}/credit`, { _id: id, credit });
+        const { data } = await axios.patch(
+          `/api/accounts/${id}/credit`,
+          { _id: id, credit },
+          { headers: { Authorization: `Bearer ${context.token}` } }
+        );
         setLoading(false);
         setCredit(data.credit);
         setCreditOriginal(data.credit);
       } catch (error) {
         context.setError(error.message);
         try {
-          const err = [];
-          for (const e in error.response.data.errors) {
-            err.push(error.response.data.errors[e].reason);
+          if (error.response.data.errors) {
+            const errors = error.response.data.errors;
+            const err = [];
+            for (const e in errors) {
+              err.push(errors[e].reason);
+            }
+            context.setError(err);
+          } else if (error.response.data.message) {
+            if (error.response.data.message === "Please authenticate") {
+              history.push("/login");
+            }
+            context.setError(error.response.data.message);
           }
-          context.setError(err);
+          console.log(context.error);
         } catch {}
         setLoading(false);
         history.push("/error");
@@ -75,18 +99,31 @@ const Account = () => {
     if (validateInputs() && amount > 0) {
       try {
         setLoading(true);
-        const { data } = await axios.patch(`http://localhost:5000/api/accounts/${id}/deposit`, { _id: id, amount });
+        const { data } = await axios.patch(
+          `/api/accounts/${id}/deposit`,
+          { _id: id, amount },
+          { headers: { Authorization: `Bearer ${context.token}` } }
+        );
         setLoading(false);
         setCash(data.cash);
         setCashOriginal(data.cash);
       } catch (error) {
         context.setError(error.message);
         try {
-          const err = [];
-          for (const e in error.response.data.errors) {
-            err.push(error.response.data.errors[e].reason);
+          if (error.response.data.errors) {
+            const errors = error.response.data.errors;
+            const err = [];
+            for (const e in errors) {
+              err.push(errors[e].reason);
+            }
+            context.setError(err);
+          } else if (error.response.data.message) {
+            if (error.response.data.message === "Please authenticate") {
+              history.push("/login");
+            }
+            context.setError(error.response.data.message);
           }
-          context.setError(err);
+          console.log(context.error);
         } catch {}
         setLoading(false);
         history.push("/error");
@@ -98,18 +135,31 @@ const Account = () => {
     if (validateInputs() && amount > 0) {
       try {
         setLoading(true);
-        const { data } = await axios.patch(`http://localhost:5000/api/accounts/${id}/withdraw`, { _id: id, amount });
+        const { data } = await axios.patch(
+          `/api/accounts/${id}/withdraw`,
+          { _id: id, amount },
+          { headers: { Authorization: `Bearer ${context.token}` } }
+        );
         setLoading(false);
         setCash(data.cash);
         setCashOriginal(data.cash);
       } catch (error) {
         context.setError(error.message);
         try {
-          const err = [];
-          for (const e in error.response.data.errors) {
-            err.push(error.response.data.errors[e].reason);
+          if (error.response.data.errors) {
+            const errors = error.response.data.errors;
+            const err = [];
+            for (const e in errors) {
+              err.push(errors[e].reason);
+            }
+            context.setError(err);
+          } else if (error.response.data.message) {
+            if (error.response.data.message === "Please authenticate") {
+              history.push("/login");
+            }
+            context.setError(error.response.data.message);
           }
-          context.setError(err);
+          console.log(context.error);
         } catch {}
         setLoading(false);
         history.push("/error");
@@ -121,7 +171,11 @@ const Account = () => {
     if (validateInputs() && toId.length > 0 && amount > 0) {
       try {
         setLoading(true);
-        const { data } = await axios.patch(`http://localhost:5000/api/accounts/transaction`, { fromId: id, toId: toId, amount });
+        const { data } = await axios.patch(
+          `/api/accounts/transaction`,
+          { fromId: id, toId: toId, amount },
+          { headers: { Authorization: `Bearer ${context.token}` } }
+        );
         setLoading(false);
         console.log(data);
         setCash(data.fromAccount.cash);
@@ -129,11 +183,20 @@ const Account = () => {
       } catch (error) {
         context.setError(error.message);
         try {
-          const err = [];
-          for (const e in error.response.data.errors) {
-            err.push(error.response.data.errors[e].reason);
+          if (error.response.data.errors) {
+            const errors = error.response.data.errors;
+            const err = [];
+            for (const e in errors) {
+              err.push(errors[e].reason);
+            }
+            context.setError(err);
+          } else if (error.response.data.message) {
+            if (error.response.data.message === "Please authenticate") {
+              history.push("/login");
+            }
+            context.setError(error.response.data.message);
           }
-          context.setError(err);
+          console.log(context.error);
         } catch {}
         setLoading(false);
         history.push("/error");
@@ -151,14 +214,30 @@ const Account = () => {
 
   const toggleActive = async (e) => {
     try {
-      const { data } = await axios.patch(`http://localhost:5000/api/accounts/${id}/active`, { isActive: e.target.checked });
+      const { data } = await axios.patch(
+        `/api/accounts/${id}/active`,
+        { isActive: e.target.checked },
+        { headers: { Authorization: `Bearer ${context.token}` } }
+      );
       setIsActive(Boolean(data.isActive));
     } catch (error) {
-      const err = [];
-      for (const e in error.response.data.errors) {
-        err.push(error.response.data.errors[e].reason);
-      }
-      context.setError(err);
+      context.setError(error.message);
+      try {
+        if (error.response.data.errors) {
+          const errors = error.response.data.errors;
+          const err = [];
+          for (const e in errors) {
+            err.push(errors[e].reason);
+          }
+          context.setError(err);
+        } else if (error.response.data.message) {
+          if (error.response.data.message === "Please authenticate") {
+            history.push("/login");
+          }
+          context.setError(error.response.data.message);
+        }
+        console.log(context.error);
+      } catch {}
       setLoading(false);
       history.push("/error");
     }

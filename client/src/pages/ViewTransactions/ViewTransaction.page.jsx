@@ -11,8 +11,8 @@ const ViewTransactions = () => {
 
   const getAllTransactions = async () => {
     try {
-      const actionsRes = axios.get("http://localhost:5000/api/actions");
-      const transactionsRes = axios.get("http://localhost:5000/api/transactions");
+      const actionsRes = axios.get("/api/actions", { headers: { Authorization: `Bearer ${context.token}` } });
+      const transactionsRes = axios.get("/api/transactions", { headers: { Authorization: `Bearer ${context.token}` } });
       const allData = await axios.all([actionsRes, transactionsRes]);
       const allActions = [];
       allData.forEach((el) => allActions.push(...el.data));
@@ -31,11 +31,23 @@ const ViewTransactions = () => {
           .sort((a, b) => b.date - a.date)
       );
     } catch (error) {
-      const err = [];
-      for (const e in error.response.data.errors) {
-        err.push(error.response.data.errors[e].reason);
-      }
-      context.setError(err);
+      context.setError(error.message);
+      try {
+        if (error.response.data.errors) {
+          const errors = error.response.data.errors;
+          const err = [];
+          for (const e in errors) {
+            err.push(errors[e].reason);
+          }
+          context.setError(err);
+        } else if (error.response.data.message) {
+          if (error.response.data.message === "Please authenticate") {
+            history.push("/login");
+          }
+          context.setError(error.response.data.message);
+        }
+        console.log(context.error);
+      } catch {}
       history.push("/error");
     }
   };

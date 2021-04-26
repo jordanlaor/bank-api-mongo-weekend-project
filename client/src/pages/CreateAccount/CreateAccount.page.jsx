@@ -17,17 +17,30 @@ const CreateAccount = () => {
     if (validateInputs()) {
       try {
         setLoading(true);
-        const { data } = await axios.post("http://localhost:5000/api/accounts", { _id: id, isActive, credit, cash });
+        const { data } = await axios.post(
+          "/api/accounts",
+          { _id: id, isActive, credit, cash },
+          { headers: { Authorization: `Bearer ${context.token}` } }
+        );
         setLoading(false);
         history.push(`/account/created/${id}`);
       } catch (error) {
         context.setError(error.message);
         try {
-          const err = [];
-          for (const e in error.response.data.errors) {
-            err.push(error.response.data.errors[e].reason);
+          if (error.response.data.errors) {
+            const errors = error.response.data.errors;
+            const err = [];
+            for (const e in errors) {
+              err.push(errors[e].reason);
+            }
+            context.setError(err);
+          } else if (error.response.data.message) {
+            if (error.response.data.message === "Please authenticate") {
+              history.push("/login");
+            }
+            context.setError(error.response.data.message);
           }
-          context.setError(err);
+          console.log(context.error);
         } catch {}
         setLoading(false);
         history.push("/error");

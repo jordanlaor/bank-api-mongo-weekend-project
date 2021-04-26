@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import React, { useContext } from "react";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import Nav from "../Nav/Nav.component";
 import HomePage from "../../pages/Home/Home.page";
@@ -10,8 +10,12 @@ import SearchPage from "../../pages/Search/Search.page";
 import AccountPage from "../../pages/Account/Account.page";
 import ViewAccountsPage from "../../pages/ViewAccounts/ViewAccounts.page";
 import ViewTransactionsPage from "../../pages/ViewTransactions/ViewTransaction.page";
+import SigninPage from "../../pages/Signin/Signin.page";
+import AppContext from "../AppContext";
+import Signin from "../../pages/Signin/Signin.page";
 
 const Router = () => {
+  const { token } = useContext(AppContext);
   return (
     <BrowserRouter>
       <Route>
@@ -22,25 +26,28 @@ const Router = () => {
           <HomePage />
         </Route>
         <Route path="/view/accounts" exact>
-          <ViewAccountsPage />
+          {token ? <ViewAccountsPage /> : <Redirect to="/login" />}
         </Route>
         <Route path="/view/transactions" exact>
-          <ViewTransactionsPage />
+          {token ? <ViewTransactionsPage /> : <Redirect to="/login" />}
         </Route>
         <Route path="/account/create" exact>
-          <CreateAccountPage />
+          {token ? <CreateAccountPage /> : <Redirect to="/login" />}
         </Route>
         <Route path="/account/created/:id" exact>
-          <CreatedAccountPage />
+          {token ? <CreatedAccountPage /> : <Redirect to="/login" />}
         </Route>
         <Route path="/account/:id" exact>
-          <AccountPage />
+          {token ? <AccountPage /> : <Redirect to="/login" />}
         </Route>
         <Route path="/search" exact>
-          <SearchPage />
+          {token ? <SearchPage /> : <Redirect to="/login" />}
         </Route>
         <Route path="/error" exact>
           <ErrorPage />
+        </Route>
+        <Route path="/login" exact>
+          <SigninPage />
         </Route>
         <Route>
           <HomePage />

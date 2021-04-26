@@ -40,12 +40,23 @@ AdminSchema.statics.findByCredentials = async (username, password) => {
 
 AdminSchema.methods.generateAuthToken = async function () {
   const admin = this;
-  const token = jwt.sign({ _id: admin._id.toString() }, process.env.TOKEN_SECRET);
+  const token = jwt.sign({ _id: admin._id.toString() }, process.env.TOKEN_SECRET, { expiresIn: "7 days" });
+  // const token = jwt.sign({ _id: admin._id.toString() }, "something");
   admin.tokens = admin.tokens.concat({ token });
   await admin.save();
   return token;
 };
 
-const AdminModel = mongoose.model("account", AccountSchema);
+AdminSchema.methods.toJSON = function () {
+  const admin = this;
+  const adminObject = admin.toObject();
+
+  delete adminObject.password;
+  delete adminObject.tokens;
+
+  return adminObject;
+};
+
+const AdminModel = mongoose.model("admin", AdminSchema);
 
 module.exports = AdminModel;

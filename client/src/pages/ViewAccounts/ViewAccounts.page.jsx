@@ -12,14 +12,26 @@ const ViewAccounts = () => {
 
   const getAllAccounts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/api/accounts");
+      const { data } = await axios.get("/api/accounts", { headers: { Authorization: `Bearer ${context.token}` } });
       setAccounts(data.map((account) => ({ id: account._id, credit: account.credit, cash: account.cash, isActive: account.isActive })));
     } catch (error) {
-      const err = [];
-      for (const e in error.response.data.errors) {
-        err.push(error.response.data.errors[e].reason);
-      }
-      context.setError(err);
+      context.setError(error.message);
+      try {
+        if (error.response.data.errors) {
+          const errors = error.response.data.errors;
+          const err = [];
+          for (const e in errors) {
+            err.push(errors[e].reason);
+          }
+          context.setError(err);
+        } else if (error.response.data.message) {
+          if (error.response.data.message === "Please authenticate") {
+            history.push("/login");
+          }
+          context.setError(error.response.data.message);
+        }
+        console.log(context.error);
+      } catch {}
       history.push("/error");
     }
   };

@@ -14,7 +14,7 @@
   background-color: #171f2718;
 }
 
-.navLink:last-of-type {
+.navLink .noBorder {
   border-right: none;
 }
 

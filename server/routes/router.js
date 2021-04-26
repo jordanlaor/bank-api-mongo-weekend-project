@@ -4,21 +4,37 @@ const AccountModel = require("../models/accountModel");
 const ActionModel = require("../models/actionModel");
 const AdminModel = require("../models/adminModel");
 const TransactionModel = require("../models/transactionModel");
+const auth = require("../middleware/auth");
 
 const router = new express.Router();
 
-router.post("/admin", async (req, res) => {
+router.post("/api/admin/in", async (req, res) => {
   try {
     const admin = await AdminModel.findByCredentials(req.body.username, req.body.password);
-    const token = admin.generateAuthToken();
-    res.send(admin, token);
+    const token = await admin.generateAuthToken();
+    res.send({ admin, token });
   } catch (error) {
     res.status(400).send(error);
   }
 });
 
-router.post("/api/accounts", async (req, res) => {
+router.post("/api/admin/out", auth, async (req, res) => {
   try {
+    console.log(req.admin);
+    req.admin.tokens = req.admin.tokens.filter((token) => {
+      return token.token !== req.token;
+    });
+    await req.admin.save();
+
+    res.status(200).send({ message: "logged out" });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.post("/api/accounts", auth, async (req, res) => {
+  try {
+    console.log(req);
     const account = new AccountModel(req.body);
     await account.save();
     res.status(201).send(account);
@@ -27,7 +43,7 @@ router.post("/api/accounts", async (req, res) => {
   }
 });
 
-router.get("/api/accounts", async (req, res) => {
+router.get("/api/accounts", auth, async (req, res) => {
   try {
     const accounts = await AccountModel.find({});
     res.status(200).send(accounts);
@@ -36,7 +52,7 @@ router.get("/api/accounts", async (req, res) => {
   }
 });
 
-router.get("/api/accounts/:id", async (req, res) => {
+router.get("/api/accounts/:id", auth, async (req, res) => {
   try {
     const account = await AccountModel.findOne({ _id: req.params.id });
     if (!account) return res.status(404).send(`No user with passport id ${req.params.id} was found`);
@@ -46,7 +62,7 @@ router.get("/api/accounts/:id", async (req, res) => {
   }
 });
 
-router.get("/api/transactions", async (req, res) => {
+router.get("/api/transactions", auth, async (req, res) => {
   try {
     const transactions = await TransactionModel.find({});
     res.status(200).send(transactions);
@@ -55,7 +71,7 @@ router.get("/api/transactions", async (req, res) => {
   }
 });
 
-router.get("/api/actions", async (req, res) => {
+router.get("/api/actions", auth, async (req, res) => {
   try {
     const actions = await ActionModel.find({});
     res.status(200).send(actions);
@@ -64,7 +80,7 @@ router.get("/api/actions", async (req, res) => {
   }
 });
 
-router.patch("/api/accounts/transaction", async (req, res) => {
+router.patch("/api/accounts/transaction", auth, async (req, res) => {
   if (typeof req.body.amount === "undefined") return res.status(400).send({ error: "You need to pass an amount for the transaction" });
   req.body.amount = Number(req.body.amount);
   if (Number.isNaN(req.body.amount) || req.body.amount <= 0) return res.status(400).send({ error: "Amount needs to be a positive number" });
@@ -98,7 +114,7 @@ router.patch("/api/accounts/transaction", async (req, res) => {
   });
 });
 
-router.patch("/api/accounts/:id/credit", async (req, res) => {
+router.patch("/api/accounts/:id/credit", auth, async (req, res) => {
   if (typeof req.body.credit === "undefined") return res.status(400).send({ error: "you need to have the new credit in the request body" });
   try {
     const account = await AccountModel.findOneAndUpdate(
@@ -113,7 +129,7 @@ router.patch("/api/accounts/:id/credit", async (req, res) => {
   }
 });
 
-router.patch("/api/accounts/:id/active", async (req, res) => {
+router.patch("/api/accounts/:id/active", auth, async (req, res) => {
   if (typeof req.body.isActive === "undefined") return res.status(400).send({ error: "you need to pass isActive true or false" });
   try {
     const account = await AccountModel.findOneAndUpdate(
@@ -128,7 +144,7 @@ router.patch("/api/accounts/:id/active", async (req, res) => {
   }
 });
 
-router.patch("/api/accounts/:id/deposit", async (req, res) => {
+router.patch("/api/accounts/:id/deposit", auth, async (req, res) => {
   if (typeof req.body.amount === "undefined") return res.status(400).send({ error: "You need to pass an amount for the deposit" });
   req.body.amount = Number(req.body.amount);
   if (Number.isNaN(req.body.amount) || req.body.amount <= 0) return res.status(400).send({ error: "Amount needs to be a positive number" });
@@ -148,7 +164,7 @@ router.patch("/api/accounts/:id/deposit", async (req, res) => {
   });
 });
 
-router.patch("/api/accounts/:id/withdraw", async (req, res) => {
+router.patch("/api/accounts/:id/withdraw", auth, async (req, res) => {
   if (typeof req.body.amount === "undefined") return res.status(400).send({ error: "You need to pass an amount for the withdraw" });
   req.body.amount = Number(req.body.amount);
   if (Number.isNaN(req.body.amount) || req.body.amount <= 0) return res.status(400).send({ error: "Amount needs to be a positive number" });
