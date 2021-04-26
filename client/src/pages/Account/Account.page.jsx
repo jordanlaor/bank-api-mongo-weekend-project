@@ -57,7 +57,7 @@ const Account = () => {
         setCredit(data.credit);
         setCreditOriginal(data.credit);
       } catch (error) {
-        context.setError(error);
+        context.setError(error.message);
         try {
           const err = [];
           for (const e in error.response.data.errors) {
@@ -80,7 +80,7 @@ const Account = () => {
         setCash(data.cash);
         setCashOriginal(data.cash);
       } catch (error) {
-        context.setError(error);
+        context.setError(error.message);
         try {
           const err = [];
           for (const e in error.response.data.errors) {
@@ -103,7 +103,7 @@ const Account = () => {
         setCash(data.cash);
         setCashOriginal(data.cash);
       } catch (error) {
-        context.setError(error);
+        context.setError(error.message);
         try {
           const err = [];
           for (const e in error.response.data.errors) {
@@ -127,7 +127,7 @@ const Account = () => {
         setCash(data.fromAccount.cash);
         setCashOriginal(data.fromAccount.cash);
       } catch (error) {
-        context.setError(error);
+        context.setError(error.message);
         try {
           const err = [];
           for (const e in error.response.data.errors) {
