@@ -24,9 +24,11 @@
   "homepage": "https://github.com/jordanlaor/bank-api-mongo-weekend-project#readme",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "concurrently": "^6.0.2",
     "dotenv": "^8.2.0",
     "israeli-id-validator": "^1.0.1",
-    "concurrently": "^6.0.2"
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

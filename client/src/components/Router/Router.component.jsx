@@ -42,6 +42,9 @@ const Router = () => {
         <Route path="/error" exact>
           <ErrorPage />
         </Route>
+        <Route>
+          <HomePage />
+        </Route>
       </Switch>
     </BrowserRouter>
   );

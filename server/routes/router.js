@@ -2,9 +2,20 @@ const express = require("express");
 const mongoose = require("mongoose");
 const AccountModel = require("../models/accountModel");
 const ActionModel = require("../models/actionModel");
+const AdminModel = require("../models/adminModel");
 const TransactionModel = require("../models/transactionModel");
 
 const router = new express.Router();
+
+router.post("/admin", async (req, res) => {
+  try {
+    const admin = await AdminModel.findByCredentials(req.body.username, req.body.password);
+    const token = admin.generateAuthToken();
+    res.send(admin, token);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
 
 router.post("/api/accounts", async (req, res) => {
   try {

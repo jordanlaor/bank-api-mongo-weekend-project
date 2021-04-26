@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 const isIsraeliIdValid = require("israeli-id-validator");
 const AccountModel = require("./accountModel");
 
-// TODO fix the schema
-const ActionModel = mongoose.model("action", {
+const ActionSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: new Date(),
@@ -32,5 +31,7 @@ const ActionModel = mongoose.model("action", {
     },
   },
 });
+
+const ActionModel = mongoose.model("action", ActionSchema);
 
 module.exports = ActionModel;

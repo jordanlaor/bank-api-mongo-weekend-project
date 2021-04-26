@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const isIsraeliIdValid = require("israeli-id-validator");
 
-// TODO fix the schema
-const AccountModel = mongoose.model("account", {
+const AccountSchema = new mongoose.Schema({
   _id: {
     type: String,
     required: true,
@@ -30,5 +29,7 @@ const AccountModel = mongoose.model("account", {
     default: true,
   },
 });
+
+const AccountModel = mongoose.model("account", AccountSchema);
 
 module.exports = AccountModel;
