@@ -31,6 +31,7 @@ AdminSchema.pre("save", async function (next) {
 });
 
 AdminSchema.statics.findByCredentials = async (username, password) => {
+  console.log("find by credentials");
   const admin = await AdminModel.findOne({ username });
   if (!admin) throw new Error("username fail");
   const isMatch = await bcrypt.compare(password, admin.password);
@@ -39,6 +40,7 @@ AdminSchema.statics.findByCredentials = async (username, password) => {
 };
 
 AdminSchema.methods.generateAuthToken = async function () {
+  console.log("generate token");
   const admin = this;
   const token = jwt.sign({ _id: admin._id.toString() }, process.env.TOKEN_SECRET, { expiresIn: "7 days" });
   // const token = jwt.sign({ _id: admin._id.toString() }, "something");
