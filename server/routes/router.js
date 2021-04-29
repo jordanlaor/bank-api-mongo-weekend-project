@@ -52,6 +52,15 @@ router.get("/api/accounts", auth, async (req, res) => {
   }
 });
 
+router.get("/api/try", async (req, res) => {
+  try {
+    // const accounts = await AccountModel.find({});
+    res.status(200).send("try");
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 router.get("/api/accounts/:id", auth, async (req, res) => {
   try {
     const account = await AccountModel.findOne({ _id: req.params.id });
