@@ -32,9 +32,9 @@ AdminSchema.pre("save", async function (next) {
 
 AdminSchema.statics.findByCredentials = async (username, password) => {
   const admin = await AdminModel.findOne({ username });
-  if (!admin) throw "Unable to log in";
+  if (!admin) throw new Error("username fail");
   const isMatch = await bcrypt.compare(password, admin.password);
-  if (!isMatch) throw "Unable to log in";
+  if (!isMatch) throw new Error("password fail");
   return admin;
 };
 
