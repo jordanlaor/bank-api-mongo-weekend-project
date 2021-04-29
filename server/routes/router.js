@@ -52,10 +52,19 @@ router.get("/api/accounts", auth, async (req, res) => {
   }
 });
 
-router.get("/api/try", async (req, res) => {
+router.get("/api/test", async (req, res) => {
   try {
     // const accounts = await AccountModel.find({});
-    res.status(200).send("try");
+    res.status(200).send("test");
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.get("/api/test/db", async (req, res) => {
+  try {
+    const accounts = await AccountModel.find({});
+    res.status(200).send("accounts");
   } catch (error) {
     res.status(500).send(error);
   }
